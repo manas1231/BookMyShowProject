@@ -1,32 +1,31 @@
 import React, { useEffect } from 'react'
-import { Form, Input, Button, message } from "antd";
-import { Link,useNavigate } from 'react-router-dom';
+import { Form, Input, Button, message,Radio} from "antd";
+import { Link, useNavigate } from 'react-router-dom';
 import { RegisterUser } from '../api/user';
 import { useDispatch } from 'react-redux';
 import { hideLoading, showLoading } from '../../redux/loaderSlice';
 
 const Register = () => {
-    const navigate=useNavigate();
-    const dispatch=useDispatch();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     useEffect(() => {
         if (localStorage.getItem("tokenForBMS")) {
-          navigate("/", { replace: true });
+            navigate("/", { replace: true });
         }
-      }, []);
-    const handleFinish =async (values) => {
+    }, []);
+    const handleFinish = async (values) => {
         console.log(values);
-        try{
+        try {
             dispatch(showLoading);
-            const response=await RegisterUser(values);
-            if(response?.success)
-            {
+            const response = await RegisterUser(values);
+            if (response?.success) {
                 message.success(response?.message)
                 navigate("/login")
             }
-        }catch(error){
+        } catch (error) {
             message.success(response?.message)
             console.log(error);
-        }finally{
+        } finally {
             dispatch(hideLoading)
         }
     };
@@ -72,6 +71,21 @@ const Register = () => {
                             <Input id="password"
                                 type='password'
                                 placeholder='Enter your password'></Input>
+                        </Form.Item>
+                        <Form.Item
+                            label="Register as a Partner"
+                            htmlFor="role"
+                            name="role"
+                            className="d-block text-center"
+                            initialValue={false}
+                            rules={[{ required: true, message: "Please select an option!" }]}
+                        >
+                            <div className="d-flex justify-content-start">
+                                <Radio.Group name="radiogroup" className="flex-start">
+                                    <Radio value={"partner"}>Yes</Radio>
+                                    <Radio value={"user"}>No</Radio>
+                                </Radio.Group>
+                            </div>
                         </Form.Item>
                         <Form.Item>
                             <Button type='primary'

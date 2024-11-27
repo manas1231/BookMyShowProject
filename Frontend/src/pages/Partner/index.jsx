@@ -1,9 +1,21 @@
-import React from 'react'
+import React from "react";
+import { Tabs } from "antd";
+import TheatreList from "./TheatreList";
 
-const Partner = () => {
+function Partner() {
+  const items = [
+    {
+      key: "theatre",
+      label: "Theatres",
+      children: <TheatreList />,
+    },
+  ];
   return (
-    <div>Partner Page</div>
-  )
+    <div>
+      <h1>Partner Page</h1>
+      <Tabs items={items} />
+    </div>
+  );
 }
 
-export default Partner
+export default Partner;
